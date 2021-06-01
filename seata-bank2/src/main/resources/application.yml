@@ -1,0 +1,53 @@
+server:
+  port: 9890
+spring:
+  cloud:
+    alibaba:
+      seata:
+        tx-service-group: my_test_tx_group
+  application:
+      name: seata-bank2
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    ds0:
+      username: root
+      password: 123456
+      url: jdbc:mysql://localhost:3306/bank2?useUnicode=true&characterEncoding=UTF8&useSSL=false
+      driver-class-name: com.mysql.jdbc.Driver
+      type: com.alibaba.druid.pool.DruidDataSource
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT user()
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      connection-properties: druid.stat.mergeSql:true;druid.stat.slowSqlMillis:5000
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9896/eureka/
+  instance:
+     prefer-ip-address: true
+     instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+
+### Ribbon 配置
+ribbon:
+  # 连接超时
+  ConnectTimeout: 2000
+  # 响应超时
+  ReadTimeout: 5000
+
+seata:
+  service:
+    grouplist:
+      default: localhost:8091

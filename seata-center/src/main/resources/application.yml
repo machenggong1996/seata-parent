@@ -1,0 +1,17 @@
+server:
+  port: 9896
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://localhost:9896/eureka/
+  server:
+    enable-self-preservation: false
+
+spring:
+  application:
+    name: seata-center
